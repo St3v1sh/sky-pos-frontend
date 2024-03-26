@@ -1,9 +1,26 @@
-import Image from "next/image";
+import LinkCardPrimary from './ui/linkCard';
 
 export default function Home() {
   return (
-    <main>
-      <h1>hello world</h1>
-    </main>
+    <>
+      <div className='flex sm:flex-row flex-col p-5'>
+        <div className='sm:mr-5 mb-5'>
+          <LinkCardPrimary
+            link='/login'
+            description='Login with your email and password.'
+          >
+            Login &gt;
+          </LinkCardPrimary>
+        </div>
+        <div className='sm:mr-5 mb-5'>
+          <LinkCardPrimary
+            link='/register'
+            description='Register a new employee account.'
+          >
+            Register &gt;
+          </LinkCardPrimary>
+        </div>
+      </div>
+    </>
   );
 }
