@@ -7,9 +7,9 @@ export default function Home() {
         <div className='sm:mr-5 mb-5'>
           <LinkCardPrimary
             link='/login'
-            description='Login with your email and password.'
+            description='Login with your username and password.'
           >
-            Login &gt;
+            LOGIN
           </LinkCardPrimary>
         </div>
         <div className='sm:mr-5 mb-5'>
@@ -17,7 +17,7 @@ export default function Home() {
             link='/register'
             description='Register a new employee account.'
           >
-            Register &gt;
+            REGISTER
           </LinkCardPrimary>
         </div>
       </div>

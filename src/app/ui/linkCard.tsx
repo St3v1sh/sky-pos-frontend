@@ -19,7 +19,9 @@ export default function LinkCardPrimary({
           'rounded-lg p-5 bg-color-surface-mixed-200 hover:bg-color-surface-mixed-300'
         )}
       >
-        <p className='mb-5 max-w-[30ch]'>{description}</p>
+        <p className='mb-5 max-w-[30ch] text-color-surface-600'>
+          {description}
+        </p>
         <p className='p-2 rounded-full bg-color-primary-500 min-w-[5rem] text-center font-bold'>
           {children}
         </p>
