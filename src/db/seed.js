@@ -1,6 +1,6 @@
-import pg from 'pg';
-import bcrypt from 'bcrypt';
-import 'dotenv/config';
+const pg = require('pg');
+const bcrypt = require('bcrypt');
+require('dotenv').config();
 
 const masterClient = new pg.Client({
     user: process.env.PG_USER,
@@ -29,9 +29,7 @@ async function createDatabase() {
         );
     `);
 
-    if (!rows[0].exists) {
-        await masterClient.query(`CREATE DATABASE ${process.env.PG_DATABASE};`);
-    }
+    if (!rows[0].exists) await masterClient.query(`CREATE DATABASE ${process.env.PG_DATABASE};`);
     await masterClient.end();
 
     await client.connect();
