@@ -37,10 +37,16 @@ export default function Page() {
           </div>
         </div>
         <button className='w-full my-10 p-3 rounded-full bg-color-primary-500 text-xl text-white font-bold'>
-          Login
+          LOGIN
         </button>
-        <Link href={'/register'} className='mt-[5rem] text-color-surface-600'>
-          Got an access code? <span className='underline'>Register now</span>
+        <Link
+          href={'/register'}
+          className='group mt-[5rem] text-color-surface-600'
+        >
+          Got an access code?{' '}
+          <span className='underline transition-colors group-hover:text-white'>
+            Register now
+          </span>
         </Link>
       </div>
     </form>
