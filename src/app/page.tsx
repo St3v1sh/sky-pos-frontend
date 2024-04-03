@@ -1,10 +1,15 @@
-import LinkCardPrimary from './ui/linkCard';
+import LinkCardPrimary from './ui/link-card';
+
+export const metadata = {
+  title: 'SKY POS',
+  description: 'The web-based POS app',
+};
 
 export default function Home() {
   return (
     <>
-      <div className='flex sm:flex-row flex-col p-5'>
-        <div className='sm:mr-5 mb-5'>
+      <div className='flex flex-col p-5 sm:flex-row'>
+        <div className='mb-5 sm:mr-5'>
           <LinkCardPrimary
             link='/login'
             description='Login with your username and password.'
@@ -12,7 +17,7 @@ export default function Home() {
             LOGIN
           </LinkCardPrimary>
         </div>
-        <div className='sm:mr-5 mb-5'>
+        <div className='mb-5 sm:mr-5'>
           <LinkCardPrimary
             link='/register'
             description='Register a new employee account.'

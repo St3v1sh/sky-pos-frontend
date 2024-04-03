@@ -5,6 +5,10 @@ import Link from 'next/link';
 import { verifyLogin } from '../lib/actions/loginActions';
 import { useFormState } from 'react-dom';
 
+// export const metadata = {
+//   title: 'Login - SKY POS',
+// };
+
 export default function Page() {
   const initialState = { message: null, errors: {} };
   const [state, dispatch] = useFormState(verifyLogin, initialState);
@@ -12,11 +16,11 @@ export default function Page() {
   return (
     <form
       action={dispatch}
-      className='flex justify-center items-center mt-10 w-full'
+      className='flex items-center justify-center w-full mt-10'
     >
       <div className='flex flex-col items-center rounded-xl p-10 m-5 bg-color-surface-mixed-200 sm:w-[30rem] w-full'>
         <h1>LOGIN</h1>
-        <div className='flex flex-col w-full mt-6 border-b border-color-surface-600'>
+        <div className='flex flex-col w-full mt-6'>
           <label htmlFor='username' className='px-1 mb-1 text-sm'>
             Username
           </label>
@@ -26,7 +30,7 @@ export default function Page() {
               name='username'
               type='text'
               placeholder='Username'
-              className='pl-8 py-1 w-full text-xl'
+              className='w-full py-1 pl-8 text-xl border-b border-color-surface-600'
             />
             <UserIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
           </div>
@@ -44,7 +48,7 @@ export default function Page() {
               </p>
             ))}
         </div>
-        <div className='flex flex-col w-full mt-6 border-b border-color-surface-600'>
+        <div className='flex flex-col w-full mt-6'>
           <label htmlFor='username' className='px-1 mb-1 text-sm'>
             Password
           </label>
@@ -54,7 +58,7 @@ export default function Page() {
               name='password'
               type='password'
               placeholder='Password'
-              className='pl-8 py-1 w-full text-xl'
+              className='w-full py-1 pl-8 text-xl border-b border-color-surface-600'
             />
             <KeyIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
           </div>
@@ -72,7 +76,7 @@ export default function Page() {
               </p>
             ))}
         </div>
-        <button className='w-full my-10 p-3 rounded-full bg-color-primary-500 text-xl text-white font-bold'>
+        <button className='w-full p-3 my-10 text-xl font-bold text-white rounded-full bg-color-primary-500'>
           LOGIN
         </button>
         <Link

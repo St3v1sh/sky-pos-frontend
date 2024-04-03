@@ -1,53 +1,197 @@
 'use client';
 
-import { EnvelopeIcon } from '@heroicons/react/20/solid';
+import {
+  CheckIcon,
+  EnvelopeIcon,
+  KeyIcon,
+  UserIcon,
+} from '@heroicons/react/20/solid';
 import { useFormState } from 'react-dom';
-import { State, verifyInviteCode } from '@/app/lib/actions/registerActions';
+import {
+  CodeValidationState,
+  verifyActivationCode,
+  verifyRegister,
+} from '@/app/lib/actions/registerActions';
+import clsx from 'clsx';
+import CredentialsFormInput from '@/app/ui/form-input';
+
+// export const metadata = {
+//   title: 'Register - SKY POS',
+// };
 
 export default function Page() {
-  const initialState = { message: null, errors: {} };
-  const [state, dispatch] = useFormState(verifyInviteCode, initialState);
+  const initialState = { success: false, message: '', errors: {} };
+  const [verifyState, verifyActivationCodeDispatch] = useFormState(
+    verifyActivationCode,
+    initialState
+  );
+  const [registerState, registerDispatch] = useFormState(
+    verifyRegister,
+    initialState
+  );
 
   return (
     <form
-      action={dispatch}
-      className='flex justify-center items-center mt-10 w-full'
+      action={
+        verifyState.success ? registerDispatch : verifyActivationCodeDispatch
+      }
+      className='flex items-center justify-center w-full mt-10'
     >
-      <div className='flex flex-col items-center rounded-xl p-10 m-5 bg-color-surface-mixed-200 sm:w-[30rem] w-full'>
-        <h1>REGISTER</h1>
-        <div className='flex flex-col w-full mt-6 border-b border-color-surface-600'>
-          <label htmlFor='code' className='px-1 mb-1 text-sm'>
-            Activation code
-          </label>
-          <div className='relative'>
-            <input
-              id='code'
-              name='code'
-              type='text'
-              placeholder='Activation code'
-              className='pl-8 py-1 w-full text-xl'
-            />
-            <EnvelopeIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
+      <div className='flex flex-col items-center rounded-xl p-5 pt-10 m-5 bg-color-surface-mixed-200 sm:w-[30rem] w-full'>
+        <div className='flex flex-col items-center w-full px-5'>
+          <h1>REGISTER</h1>
+          {/* Activation code input */}
+          <div className='flex flex-col w-full mt-6'>
+            <CredentialsFormInput
+              formDetails={{
+                id: 'code',
+                label: 'Activation code',
+                placeholder: 'Activation code',
+                readOnly: verifyState.success,
+              }}
+              className='read-only:bg-color-surface-mixed-100'
+            >
+              <EnvelopeIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
+              <CheckIcon
+                className={clsx(
+                  'transition-all duration-500 pointer-events-none absolute right-2 top-1/2 h-[27px] w-[27px] -translate-y-1/2 text-green-500',
+                  verifyState.success ? 'opacity-100' : 'opacity-0'
+                )}
+              />
+            </CredentialsFormInput>
           </div>
         </div>
         <div
           id='code-error'
           aria-live='polite'
           aria-atomic='true'
-          className='flex flex-col w-full'
+          className='flex flex-col w-full px-5'
         >
-          {state.errors?.code &&
-            state.errors.code.map((error: string) => (
+          {verifyState.errors?.code &&
+            verifyState.errors.code.map((error: string) => (
+              <p className='mt-2 text-sm text-red-500' key={error}>
+                {error}
+              </p>
+            ))}
+          {registerState.errors?.code &&
+            registerState.errors.code.map((error: string) => (
               <p className='mt-2 text-sm text-red-500' key={error}>
                 {error}
               </p>
             ))}
         </div>
+        <div
+          className={clsx(
+            'grid w-full transition-all duration-500 ease-in-out',
+            verifyState.success ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+          )}
+        >
+          {/* Username input */}
+          <div
+            className={clsx(
+              'flex flex-col w-full transition-all duration-500 ease-in-out overflow-hidden px-5',
+              verifyState.success && 'pb-5'
+            )}
+          >
+            {/* Username input */}
+            <div className='mt-6'>
+              <CredentialsFormInput
+                formDetails={{
+                  id: 'username',
+                  label: 'Username',
+                  placeholder: 'Username',
+                }}
+              >
+                <UserIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
+              </CredentialsFormInput>
+            </div>
+            <div
+              id='username-error'
+              aria-live='polite'
+              aria-atomic='true'
+              className='flex flex-col w-full'
+            >
+              {registerState.errors?.username &&
+                registerState.errors.username.map((error: string) => (
+                  <p className='mt-2 text-sm text-red-500' key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+            {/* Password input */}
+            <div className='mt-6'>
+              <CredentialsFormInput
+                formDetails={{
+                  id: 'password',
+                  label: 'Password',
+                  placeholder: 'Password',
+                  type: 'password',
+                }}
+              >
+                <KeyIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
+              </CredentialsFormInput>
+            </div>
+            <div
+              id='password-error'
+              aria-live='polite'
+              aria-atomic='true'
+              className='flex flex-col w-full'
+            >
+              {registerState.errors?.password &&
+                registerState.errors.password.map((error: string) => (
+                  <p className='mt-2 text-sm text-red-500' key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+            {/* Confirm password input */}
+            <div className='mt-6'>
+              <CredentialsFormInput
+                formDetails={{
+                  id: 'confirm-password',
+                  label: 'Confirm password',
+                  placeholder: 'Password',
+                  type: 'password',
+                }}
+              >
+                <KeyIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
+              </CredentialsFormInput>
+            </div>
+            <div
+              id='confirm-password-error'
+              aria-live='polite'
+              aria-atomic='true'
+              className='flex flex-col w-full'
+            >
+              {registerState.errors?.confirmPassword &&
+                registerState.errors.confirmPassword.map((error: string) => (
+                  <p className='mt-2 text-sm text-red-500' key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+            <div className='flex flex-col w-full'>
+              {registerState.message && (
+                <p className='mt-2 text-sm text-red-500'>
+                  {registerState.message}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className='flex flex-col w-full px-5'>
+          {verifyState.message && (
+            <p className='mt-2 text-sm text-red-500'>{verifyState.message}</p>
+          )}
+        </div>
         <button
           type='submit'
-          className='w-full mt-10 p-3 rounded-full bg-color-primary-500 text-xl text-white font-bold'
+          className={clsx(
+            'w-full p-3 mt-10 transition-all duration-500 text-xl font-bold text-white rounded-full bg-color-primary-500',
+            verifyState.success && 'mt-5'
+          )}
         >
-          REGISTER
+          {verifyState.success ? 'REGISTER' : 'CHECK'}
         </button>
       </div>
     </form>
