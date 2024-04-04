@@ -7,13 +7,14 @@ interface CredentialsFormInputProps {
     placeholder?: string;
     type?: string;
     readOnly?: boolean;
+    disabled?: boolean;
   };
   children?: React.ReactNode;
   className?: string;
 }
 
 export default function CredentialsFormInput({
-  formDetails: { id, label, placeholder, type, readOnly },
+  formDetails: { id, label, placeholder, type, readOnly, disabled },
   className,
   children,
 }: CredentialsFormInputProps) {
@@ -33,6 +34,7 @@ export default function CredentialsFormInput({
             className
           )}
           readOnly={readOnly}
+          disabled={disabled}
         />
         {children}
       </div>

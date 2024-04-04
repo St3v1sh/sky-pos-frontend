@@ -3,11 +3,8 @@
 import { KeyIcon, UserIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { verifyLogin } from '../lib/actions/loginActions';
-import { useFormState } from 'react-dom';
-
-// export const metadata = {
-//   title: 'Login - SKY POS',
-// };
+import { useFormState, useFormStatus } from 'react-dom';
+import CredentialsFormInput from '@/app/ui/form-input';
 
 export default function Page() {
   const initialState = { message: null, errors: {} };
@@ -21,19 +18,16 @@ export default function Page() {
       <div className='flex flex-col items-center rounded-xl p-10 m-5 bg-color-surface-mixed-200 sm:w-[30rem] w-full'>
         <h1>LOGIN</h1>
         <div className='flex flex-col w-full mt-6'>
-          <label htmlFor='username' className='px-1 mb-1 text-sm'>
-            Username
-          </label>
-          <div className='relative'>
-            <input
-              id='username'
-              name='username'
-              type='text'
-              placeholder='Username'
-              className='w-full py-1 pl-8 text-xl border-b border-color-surface-600'
-            />
+          <CredentialsFormInput
+            formDetails={{
+              id: 'username',
+              label: 'Username',
+              placeholder: 'Username',
+              type: 'text',
+            }}
+          >
             <UserIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
-          </div>
+          </CredentialsFormInput>
         </div>
         <div
           id='username-error'
@@ -49,19 +43,16 @@ export default function Page() {
             ))}
         </div>
         <div className='flex flex-col w-full mt-6'>
-          <label htmlFor='username' className='px-1 mb-1 text-sm'>
-            Password
-          </label>
-          <div className='relative'>
-            <input
-              id='password'
-              name='password'
-              type='password'
-              placeholder='Password'
-              className='w-full py-1 pl-8 text-xl border-b border-color-surface-600'
-            />
+          <CredentialsFormInput
+            formDetails={{
+              id: 'password',
+              label: 'Password',
+              placeholder: 'Password',
+              type: 'password',
+            }}
+          >
             <KeyIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
-          </div>
+          </CredentialsFormInput>
         </div>
         <div
           id='password-error'
@@ -76,19 +67,29 @@ export default function Page() {
               </p>
             ))}
         </div>
-        <button className='w-full p-3 my-10 text-xl font-bold text-white rounded-full bg-color-primary-500'>
-          LOGIN
-        </button>
+        <FormButton />
         <Link
           href={'/register'}
           className='group mt-[5rem] text-color-surface-600'
         >
-          Got an activation code?{' '}
+          {'Got an activation code? '}
           <span className='underline transition-colors group-hover:text-white'>
             Register now
           </span>
         </Link>
       </div>
     </form>
+  );
+}
+
+function FormButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      className='w-full p-3 my-10 text-xl font-bold text-white rounded-full bg-color-primary-500 disabled:bg-color-primary-500/25 disabled:text-white/25'
+      disabled={pending}
+    >
+      LOGIN
+    </button>
   );
 }

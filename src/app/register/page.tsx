@@ -6,7 +6,7 @@ import {
   KeyIcon,
   UserIcon,
 } from '@heroicons/react/20/solid';
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 import {
   CodeValidationState,
   verifyActivationCode,
@@ -14,10 +14,6 @@ import {
 } from '@/app/lib/actions/registerActions';
 import clsx from 'clsx';
 import CredentialsFormInput from '@/app/ui/form-input';
-
-// export const metadata = {
-//   title: 'Register - SKY POS',
-// };
 
 export default function Page() {
   const initialState = { success: false, message: '', errors: {} };
@@ -86,7 +82,6 @@ export default function Page() {
             verifyState.success ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
           )}
         >
-          {/* Username input */}
           <div
             className={clsx(
               'flex flex-col w-full transition-all duration-500 ease-in-out overflow-hidden px-5',
@@ -100,6 +95,7 @@ export default function Page() {
                   id: 'username',
                   label: 'Username',
                   placeholder: 'Username',
+                  disabled: !verifyState.success,
                 }}
               >
                 <UserIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
@@ -126,6 +122,7 @@ export default function Page() {
                   label: 'Password',
                   placeholder: 'Password',
                   type: 'password',
+                  disabled: !verifyState.success,
                 }}
               >
                 <KeyIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
@@ -150,8 +147,8 @@ export default function Page() {
                 formDetails={{
                   id: 'confirm-password',
                   label: 'Confirm password',
-                  placeholder: 'Password',
                   type: 'password',
+                  disabled: !verifyState.success,
                 }}
               >
                 <KeyIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
@@ -184,16 +181,28 @@ export default function Page() {
             <p className='mt-2 text-sm text-red-500'>{verifyState.message}</p>
           )}
         </div>
-        <button
-          type='submit'
-          className={clsx(
-            'w-full p-3 mt-10 transition-all duration-500 text-xl font-bold text-white rounded-full bg-color-primary-500',
-            verifyState.success && 'mt-5'
-          )}
-        >
-          {verifyState.success ? 'REGISTER' : 'CHECK'}
-        </button>
+        <FormButton verifyState={verifyState} />
       </div>
     </form>
+  );
+}
+
+type FormButtonProps = {
+  verifyState: CodeValidationState;
+};
+
+function FormButton({ verifyState }: FormButtonProps) {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type='submit'
+      className={clsx(
+        'w-full p-3 mt-10 transition-all duration-500 text-xl font-bold text-white rounded-full bg-color-primary-500 disabled:bg-color-primary-500/25 disabled:text-white/25',
+        verifyState.success && 'mt-5'
+      )}
+      disabled={pending}
+    >
+      {verifyState.success ? 'REGISTER' : 'CHECK'}
+    </button>
   );
 }

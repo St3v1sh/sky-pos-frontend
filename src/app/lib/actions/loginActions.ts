@@ -1,6 +1,5 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 
 const LoginSchema = z.object({
@@ -34,8 +33,6 @@ export async function verifyLogin(
   }
 
   // Check credentials with database.
-
-  revalidatePath('/login');
 
   return {
     message: 'Successfully logged in.',

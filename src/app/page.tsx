@@ -1,10 +1,5 @@
 import LinkCardPrimary from './ui/link-card';
 
-export const metadata = {
-  title: 'SKY POS',
-  description: 'The web-based POS app',
-};
-
 export default function Home() {
   return (
     <>
