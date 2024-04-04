@@ -197,7 +197,7 @@ function FormButton({ verifyState }: FormButtonProps) {
     <button
       type='submit'
       className={clsx(
-        'w-full p-3 mt-10 transition-all duration-500 text-xl font-bold text-white rounded-full bg-color-primary-500 disabled:bg-color-primary-500/25 disabled:text-white/25',
+        'w-full p-3 mt-10 text-xl font-bold text-white transition-all duration-200 rounded-full bg-color-primary-500 disabled:bg-color-primary-500/25 disabled:text-white/25',
         verifyState.success && 'mt-5'
       )}
       disabled={pending}
