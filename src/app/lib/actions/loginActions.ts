@@ -1,5 +1,6 @@
 'use server';
 
+import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
 const LoginSchema = z.object({
@@ -28,13 +29,54 @@ export async function verifyLogin(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to verify login.',
     };
   }
 
   // Check credentials with database.
+  let response;
+  try {
+    response = await fetch(process.env.DB_API_URL + '/login', {
+      cache: 'no-cache',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.DB_API_KEY!,
+      },
+      body: JSON.stringify({
+        username: validatedFields.data.username,
+        password: validatedFields.data.password,
+      }),
+    });
+  } catch (error) {
+    console.error(error);
+    return {
+      message: 'Internal server error; try again later',
+    };
+  }
 
-  return {
-    message: 'Successfully logged in.',
-  };
+  if (response.ok) {
+    redirect('/');
+  }
+
+  switch (response.status) {
+    case 400:
+      return {
+        message: 'Incorrect username or password',
+      };
+
+    case 401:
+      return {
+        message: 'Cannot communicate with database; try again later',
+      };
+
+    case 500:
+      return {
+        message: 'Database server error; try again later',
+      };
+
+    default:
+      return {
+        message: 'Unknown error; try again later',
+      };
+  }
 }
