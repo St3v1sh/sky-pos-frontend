@@ -2,6 +2,11 @@
 
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import {
+  checkActivationCodeAPI,
+  checkUsernameAPI,
+  registerAPI,
+} from '../database-api/credentials';
 
 const InviteCodeSchema = z.object({
   code: z.string().min(1, 'Activation code is required'),
@@ -31,19 +36,9 @@ export async function verifyActivationCode(
   }
 
   // Check activation code with database.
+  const code = validatedFields.data.code;
   try {
-    const response = await fetch(
-      process.env.DB_API_URL + '/check-activation-code',
-      {
-        cache: 'no-cache',
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': process.env.DB_API_KEY!,
-        },
-        body: JSON.stringify({ code: validatedFields.data.code }),
-      }
-    );
+    const response = await checkActivationCodeAPI(code);
 
     if (response.ok) {
       return {
@@ -132,16 +127,9 @@ export async function verifyRegister(
   }
 
   // Check if username is already taken.
+  const username = validatedFields.data.username;
   try {
-    const response = await fetch(process.env.DB_API_URL + '/check-username', {
-      cache: 'no-cache',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.DB_API_KEY!,
-      },
-      body: JSON.stringify({ username: validatedFields.data.username }),
-    });
+    const response = await checkUsernameAPI(username);
 
     if (!response.ok) {
       switch (response.status) {
@@ -176,20 +164,10 @@ export async function verifyRegister(
 
   // Register user in database.
   let response;
+  const password = validatedFields.data.password;
+  const code = validatedFields.data.code;
   try {
-    response = await fetch(process.env.DB_API_URL + '/register', {
-      cache: 'no-cache',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.DB_API_KEY!,
-      },
-      body: JSON.stringify({
-        username: validatedFields.data.username,
-        password: validatedFields.data.password,
-        code: validatedFields.data.code,
-      }),
-    });
+    response = await registerAPI(username, password, code);
   } catch (error) {
     console.error(error);
     return {
