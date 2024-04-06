@@ -1,6 +1,6 @@
 'use client';
 
-import { KeyIcon, UserIcon } from '@heroicons/react/20/solid';
+import { AtSymbolIcon, KeyIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
 import { verifyLogin } from '@/app/lib/actions/loginActions';
 import { useFormState, useFormStatus } from 'react-dom';
@@ -20,13 +20,13 @@ export default function LoginForm() {
         <div className='flex flex-col w-full mt-6'>
           <CredentialsFormInput
             formDetails={{
-              id: 'username',
-              label: 'Username',
-              placeholder: 'Username',
-              type: 'text',
+              id: 'email',
+              label: 'Email',
+              placeholder: 'Email',
+              type: 'email',
             }}
           >
-            <UserIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
+            <AtSymbolIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
           </CredentialsFormInput>
         </div>
         <div
@@ -35,8 +35,8 @@ export default function LoginForm() {
           aria-atomic='true'
           className='flex flex-col w-full'
         >
-          {state.errors?.username &&
-            state.errors.username.map((error: string) => (
+          {state.errors?.email &&
+            state.errors.email.map((error: string) => (
               <p className='mt-2 text-sm text-red-500' key={error}>
                 {error}
               </p>

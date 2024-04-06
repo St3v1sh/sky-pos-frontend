@@ -4,9 +4,10 @@ import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import {
   checkActivationCodeAPI,
-  checkUsernameAPI,
+  checkEmailAPI,
   registerAPI,
 } from '../database-api/credentials';
+import { signIn } from '@/auth';
 
 const InviteCodeSchema = z.object({
   code: z.string().min(1, 'Activation code is required'),
@@ -77,10 +78,15 @@ export async function verifyActivationCode(
 
 const RegisterSchema = z
   .object({
-    username: z
+    email: z.string().max(255, 'Email is too long').email('Invalid email'),
+    firstName: z
       .string()
-      .min(5, 'Username must be at least 5 characters long')
-      .max(255, 'Username is too long'),
+      .min(1, 'First name is required')
+      .max(255, 'First name is too long'),
+    lastName: z
+      .string()
+      .min(1, 'Last name is required')
+      .max(255, 'Last name is too long'),
     password: z
       .string()
       .min(8, 'Password must be at least 8 characters long')
@@ -99,7 +105,9 @@ const RegisterSchema = z
 
 export type UserValidationState = {
   errors?: {
-    username?: string[];
+    email?: string[];
+    firstName?: string[];
+    lastName?: string[];
     password?: string[];
     confirmPassword?: string[];
     code?: string[];
@@ -113,7 +121,9 @@ export async function verifyRegister(
 ): Promise<UserValidationState> {
   // Zod form validation.
   const validatedFields = RegisterSchema.safeParse({
-    username: formData.get('username'),
+    email: formData.get('email'),
+    firstName: formData.get('first-name'),
+    lastName: formData.get('last-name'),
     password: formData.get('password'),
     confirmPassword: formData.get('confirm-password'),
     code: formData.get('code'),
@@ -126,16 +136,16 @@ export async function verifyRegister(
     };
   }
 
-  // Check if username is already taken.
-  const username = validatedFields.data.username;
+  // Check if email is already taken.
+  const email = validatedFields.data.email;
   try {
-    const response = await checkUsernameAPI(username);
+    const response = await checkEmailAPI(email);
 
     if (!response.ok) {
       switch (response.status) {
         case 400:
           return {
-            errors: { username: ['Username is already taken'] },
+            errors: { email: ['Account already exists on this email'] },
             message: 'Invalid field(s)',
           };
 
@@ -164,10 +174,12 @@ export async function verifyRegister(
 
   // Register user in database.
   let response;
+  const firstName = validatedFields.data.firstName;
+  const lastName = validatedFields.data.lastName;
   const password = validatedFields.data.password;
   const code = validatedFields.data.code;
   try {
-    response = await registerAPI(username, password, code);
+    response = await registerAPI(email, firstName, lastName, password, code);
   } catch (error) {
     console.error(error);
     return {
@@ -176,15 +188,30 @@ export async function verifyRegister(
   }
 
   if (response.ok) {
-    redirect('/');
+    await signIn('credentials', {
+      email: email,
+      password: password,
+    });
   }
 
   switch (response.status) {
     case 400:
-      return {
-        errors: { code: ['Invalid activation code or username'] },
-        message: 'Invalid field(s)',
-      };
+      const { errorFrom }: { errorFrom: string } = await response.json();
+      if (errorFrom === 'code') {
+        return {
+          errors: { code: ['Invalid activation code or username'] },
+          message: 'Invalid field(s)',
+        };
+      } else if (errorFrom === 'email') {
+        return {
+          errors: { email: ['Account already exists on this email'] },
+          message: 'Invalid field(s)',
+        };
+      } else {
+        return {
+          message: 'Invalid field(s)',
+        };
+      }
 
     case 401:
       return {

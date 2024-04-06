@@ -1,10 +1,10 @@
 'use client';
 
 import {
+  AtSymbolIcon,
   CheckIcon,
   EnvelopeIcon,
   KeyIcon,
-  UserIcon,
 } from '@heroicons/react/20/solid';
 import { useFormState, useFormStatus } from 'react-dom';
 import {
@@ -89,27 +89,74 @@ export default function RegisterForm() {
               verifyState.success && 'pb-5'
             )}
           >
-            {/* Username input */}
+            {/* Email input */}
             <div className='mt-6'>
               <CredentialsFormInput
                 formDetails={{
-                  id: 'username',
-                  label: 'Username',
-                  placeholder: 'Username',
+                  id: 'email',
+                  label: 'Email',
+                  placeholder: 'Email',
+                  type: 'email',
                   disabled: !verifyState.success,
                 }}
               >
-                <UserIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
+                <AtSymbolIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
               </CredentialsFormInput>
             </div>
             <div
-              id='username-error'
+              id='email-error'
               aria-live='polite'
               aria-atomic='true'
               className='flex flex-col w-full'
             >
-              {registerState.errors?.username &&
-                registerState.errors.username.map((error: string) => (
+              {registerState.errors?.email &&
+                registerState.errors.email.map((error: string) => (
+                  <p className='mt-2 text-sm text-red-500' key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+            {/* First name input */}
+            <div className='mt-6'>
+              <CredentialsFormInput
+                formDetails={{
+                  id: 'first-name',
+                  label: 'First name',
+                  disabled: !verifyState.success,
+                }}
+              ></CredentialsFormInput>
+            </div>
+            <div
+              id='first-name-error'
+              aria-live='polite'
+              aria-atomic='true'
+              className='flex flex-col w-full'
+            >
+              {registerState.errors?.firstName &&
+                registerState.errors.firstName.map((error: string) => (
+                  <p className='mt-2 text-sm text-red-500' key={error}>
+                    {error}
+                  </p>
+                ))}
+            </div>
+            {/* Last name input */}
+            <div className='mt-6'>
+              <CredentialsFormInput
+                formDetails={{
+                  id: 'last-name',
+                  label: 'Last name',
+                  disabled: !verifyState.success,
+                }}
+              ></CredentialsFormInput>
+            </div>
+            <div
+              id='last-name-error'
+              aria-live='polite'
+              aria-atomic='true'
+              className='flex flex-col w-full'
+            >
+              {registerState.errors?.lastName &&
+                registerState.errors.lastName.map((error: string) => (
                   <p className='mt-2 text-sm text-red-500' key={error}>
                     {error}
                   </p>
@@ -151,9 +198,7 @@ export default function RegisterForm() {
                   type: 'password',
                   disabled: !verifyState.success,
                 }}
-              >
-                <KeyIcon className='pointer-events-none absolute left-2 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-color-surface-600' />
-              </CredentialsFormInput>
+              ></CredentialsFormInput>
             </div>
             <div
               id='confirm-password-error'

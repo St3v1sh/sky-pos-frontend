@@ -3,6 +3,7 @@ import type { NextAuthConfig } from 'next-auth';
 export const authConfig = {
   pages: {
     signIn: '/login',
+    newUser: '/register',
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
@@ -16,7 +17,7 @@ export const authConfig = {
       const isOnLogin = nextUrl.pathname === '/login';
       const isOnRegister = nextUrl.pathname === '/register';
       if (isLoggedIn && (isOnLogin || isOnRegister)) {
-        return Response.redirect(new URL('/dashboard', nextUrl));
+        return Response.redirect(new URL('/', nextUrl));
       }
       return true;
     },

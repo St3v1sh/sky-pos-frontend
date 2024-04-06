@@ -3,14 +3,7 @@ import { authConfig } from './auth.config';
 import credentials from 'next-auth/providers/credentials';
 import { loginAPI } from '@/app/lib/database-api/credentials';
 import { z } from 'zod';
-
-export type User = {
-  id: string;
-  username: string;
-  password: string;
-  privilege_type: string;
-  created_at: string;
-};
+import { POSUser } from '@/app/lib/models/user';
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -19,7 +12,7 @@ export const { auth, signIn, signOut } = NextAuth({
       async authorize(credentials) {
         const parsedCredentials = z
           .object({
-            username: z.string(),
+            email: z.string(),
             password: z.string(),
           })
           .safeParse(credentials);
@@ -28,14 +21,21 @@ export const { auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        const { username, password } = parsedCredentials.data;
+        const { email, password } = parsedCredentials.data;
         try {
-          const response = await loginAPI(username, password);
+          const response = await loginAPI(email, password);
 
           if (response.ok) {
-            const { user }: { user: User } = await response.json();
+            const { user }: { user: POSUser } = await response.json();
             if (user) {
-              return user;
+              return {
+                id: user.id,
+                email: user.email,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                name: `${user.first_name} ${user.last_name}`,
+                privilege_type: user.privilege_type,
+              };
             } else {
               return null;
             }
@@ -49,4 +49,28 @@ export const { auth, signIn, signOut } = NextAuth({
       },
     }),
   ],
+  callbacks: {
+    session({ session, token }) {
+      return {
+        expires: session?.expires,
+        user: {
+          ...session?.user,
+          first_name: token.first_name,
+          last_name: token.last_name,
+          privilege_type: token.privilege_type,
+          _id: token.id,
+        },
+      };
+    },
+    jwt({ token, user }) {
+      return {
+        ...token,
+        first_name: (user as POSUser)?.first_name || token.first_name,
+        last_name: (user as POSUser)?.last_name || token.last_name,
+        privilege_type:
+          (user as POSUser)?.privilege_type || token.privilege_type,
+        id: (user as POSUser)?.id || token.id,
+      };
+    },
+  },
 });
