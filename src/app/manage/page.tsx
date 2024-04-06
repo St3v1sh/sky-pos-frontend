@@ -1,14 +1,14 @@
 import Logo from '@/app/ui/logo';
 
 export const metadata = {
-  title: 'Dashboard - SKY POS',
+  title: 'Management - SKY POS',
 };
 
 export default async function Page() {
   return (
     <>
       <Logo />
-      <div>dashboard page</div>
+      <div>management page</div>
     </>
   );
 }

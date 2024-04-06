@@ -2,6 +2,7 @@ import LinkCardPrimary from '@/app/ui/link-card-primary';
 import Logo from '@/app/ui/logo';
 import { auth } from '@/auth';
 import LogoutLinkCardPrimary from './ui/credentials/logout-link-card-primary';
+import { POSUser } from './lib/models/user';
 
 export const metadata = {
   title: 'SKY POS',
@@ -25,6 +26,16 @@ export default async function Home() {
                 DASHBOARD
               </LinkCardPrimary>
             </div>
+            {(session.user as POSUser)?.privilege_type === 'admin' && (
+              <div className='mb-5 sm:mr-5'>
+                <LinkCardPrimary
+                  link='/manage'
+                  description='Go to the management dashboard.'
+                >
+                  MANAGE
+                </LinkCardPrimary>
+              </div>
+            )}
             <div className='mb-5 sm:mr-5'>
               <LogoutLinkCardPrimary description='Logout of your account.'>
                 LOGOUT

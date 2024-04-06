@@ -1,9 +1,13 @@
 import NextAuth from 'next-auth';
-import { authConfig } from './auth.config';
+import { authConfig } from '@/auth.config';
 import credentials from 'next-auth/providers/credentials';
 import { loginAPI } from '@/app/lib/database-api/credentials';
 import { z } from 'zod';
 import { POSUser } from '@/app/lib/models/user';
+
+type UserResponseData = {
+  user: POSUser;
+};
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
@@ -26,7 +30,7 @@ export const { auth, signIn, signOut } = NextAuth({
           const response = await loginAPI(email, password);
 
           if (response.ok) {
-            const { user }: { user: POSUser } = await response.json();
+            const { user }: UserResponseData = await response.json();
             if (user) {
               return {
                 id: user.id,
