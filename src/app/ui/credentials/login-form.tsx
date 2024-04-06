@@ -2,7 +2,7 @@
 
 import { AtSymbolIcon, KeyIcon } from '@heroicons/react/20/solid';
 import Link from 'next/link';
-import { verifyLogin } from '@/app/lib/actions/loginActions';
+import { verifyLogin } from '@/lib/actions/loginActions';
 import { useFormState, useFormStatus } from 'react-dom';
 import CredentialsFormInput from '@/app/ui/credentials/credentials-form-input';
 

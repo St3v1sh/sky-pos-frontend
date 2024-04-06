@@ -1,8 +1,8 @@
 import LinkCardPrimary from '@/app/ui/link-card-primary';
-import Logo from '@/app/ui/logo';
 import { auth } from '@/auth';
-import LogoutLinkCardPrimary from './ui/credentials/logout-link-card-primary';
-import { POSUser } from './lib/models/user';
+import LogoutLinkCardPrimary from '@/app/ui/credentials/logout-link-card-primary';
+import { POSUser } from '@/lib/models/user';
+import HomeHeader from '../ui/home/home-header';
 
 export const metadata = {
   title: 'SKY POS',
@@ -14,8 +14,8 @@ export default async function Home() {
 
   return (
     <>
-      <Logo />
-      <div className='flex flex-col p-5 sm:flex-row'>
+      <HomeHeader />
+      <div className='flex flex-col p-5 sm:flex-row sm:flex-wrap'>
         {session ? (
           <>
             <div className='mb-5 sm:mr-5'>
@@ -36,7 +36,7 @@ export default async function Home() {
                 </LinkCardPrimary>
               </div>
             )}
-            <div className='mb-5 sm:mr-5'>
+            <div className='w-full mb-5 sm:w-auto sm:mr-5'>
               <LogoutLinkCardPrimary description='Logout of your account.'>
                 LOGOUT
               </LogoutLinkCardPrimary>

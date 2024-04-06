@@ -1,5 +1,5 @@
-import Logo from '@/app/ui/logo';
 import RegisterForm from '@/app/ui/credentials/register-form';
+import HomeHeader from '@/app/ui/home/home-header';
 
 export const metadata = {
   title: 'Register - SKY POS',
@@ -8,7 +8,7 @@ export const metadata = {
 export default async function Page() {
   return (
     <>
-      <Logo />
+      <HomeHeader />
       <RegisterForm />
     </>
   );

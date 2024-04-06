@@ -11,7 +11,7 @@ import {
   CodeValidationState,
   verifyActivationCode,
   verifyRegister,
-} from '@/app/lib/actions/registerActions';
+} from '@/lib/actions/registerActions';
 import clsx from 'clsx';
 import CredentialsFormInput from '@/app/ui/credentials/credentials-form-input';
 import Link from 'next/link';

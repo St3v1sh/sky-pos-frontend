@@ -1,5 +1,5 @@
 import LoginForm from '@/app/ui/credentials/login-form';
-import Logo from '@/app/ui/logo';
+import HomeHeader from '../ui/home/home-header';
 
 export const metadata = {
   title: 'Login - SKY POS',
@@ -8,7 +8,7 @@ export const metadata = {
 export default async function Page() {
   return (
     <>
-      <Logo />
+      <HomeHeader />
       <LoginForm />
     </>
   );
