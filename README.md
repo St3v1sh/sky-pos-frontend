@@ -8,7 +8,7 @@ TODO
 
 ### Development
 
-Run the development move using `npm run dev`
+Run the development mode using `npm run dev`
 
 ### Backend
 
