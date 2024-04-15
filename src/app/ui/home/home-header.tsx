@@ -15,7 +15,7 @@ export default async function HomeHeader({ session }: HomeHeaderProps) {
       <div className='hidden sm:block'>
         <div className='flex flex-col'>
           {session?.user && (
-            <div className='flex items-center mb-1 text-lg'>
+            <div className='flex items-center mb-1 text-lg max-w-[30ch] text-balance'>
               <span className='capitalize'>
                 {'Welcome, ' +
                   (session?.user as POSUser).first_name +
