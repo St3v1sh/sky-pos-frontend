@@ -12,4 +12,4 @@ Run the development move using `npm run dev`
 
 ### Backend
 
-Backend is located at: TODO
+Backend is located at [here](https://github.com/sky3947/sky-pos-database-api)
