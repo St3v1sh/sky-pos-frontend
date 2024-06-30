@@ -13,6 +13,12 @@ export const authConfig = {
     signIn: '/login',
     newUser: '/register',
   },
+  jwt: {
+    maxAge: 23 * 60 * 60,
+  },
+  session: {
+    maxAge: 23 * 60 * 60,
+  },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
