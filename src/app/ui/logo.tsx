@@ -1,9 +1,13 @@
+import clsx from 'clsx';
 import Link from 'next/link';
 
-export default function Logo() {
+type LogoProps = {
+  className?: string;
+};
+export default function Logo({ className }: LogoProps) {
   return (
-    <div className='font-bold rounded-b-xl text-7xl'>
-      <Link href='/'>SKY POS</Link>
-    </div>
+    <Link className={clsx('font-bold text-white', className)} href='/'>
+      SKY POS
+    </Link>
   );
 }

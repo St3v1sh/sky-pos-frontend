@@ -21,11 +21,14 @@ export default function LogoutLinkCardPrimary({
         <p className='mb-5 w-full text-start sm:max-w-[30ch] max-w-full text-color-surface-600'>
           {description}
         </p>
-        <p className='p-2 rounded-full bg-color-primary-500 min-w-[5rem] text-center font-bold'>
+        <div className='p-2 rounded-full bg-color-primary-500 min-w-[5rem] text-center font-bold'>
           {children}
-        </p>
+        </div>
       </div>
-      <button className='absolute top-0 left-0 w-full h-full'></button>
+      <button
+        type='submit'
+        className='absolute top-0 left-0 w-full h-full'
+      ></button>
     </form>
   );
 }

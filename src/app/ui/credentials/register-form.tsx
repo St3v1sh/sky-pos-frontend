@@ -36,7 +36,7 @@ export default function RegisterForm() {
     >
       <div className='flex flex-col items-center rounded-xl p-5 pt-10 m-5 bg-color-surface-mixed-200 sm:w-[30rem] w-full'>
         <div className='flex flex-col items-center w-full px-5'>
-          <h1>REGISTER</h1>
+          <h1 className='text-white'>REGISTER</h1>
           {/* Activation code input */}
           <div className='flex flex-col w-full mt-6'>
             <CredentialsFormInput

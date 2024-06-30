@@ -12,7 +12,7 @@ export default function RootLayout({
       <body
         className={clsx(
           jost.className,
-          'bg-color-surface-mixed-100 text-white'
+          'bg-color-surface-mixed-100 text-gray-400'
         )}
       >
         <main>{children}</main>

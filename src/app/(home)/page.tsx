@@ -2,8 +2,8 @@ import LinkCardPrimary from '@/app/ui/link-card-primary';
 import { auth } from '@/auth';
 import LogoutLinkCardPrimary from '@/app/ui/credentials/logout-link-card-primary';
 import { POSUser } from '@/lib/models/user';
-import HomeHeader from '../ui/home/home-header';
-import { ShieldCheckIcon } from '@heroicons/react/20/solid';
+import HomeHeader from '@/app/ui/home/home-header';
+import AdminIcon from '@/app/ui/credentials/admin-icon';
 
 export const metadata = {
   title: 'SKY POS',
@@ -24,7 +24,7 @@ export default async function Home() {
                 link='/dashboard'
                 description='Go to the employee dashboard.'
               >
-                DASHBOARD
+                <p className='text-white'>DASHBOARD</p>
               </LinkCardPrimary>
             </div>
             {(session.user as POSUser)?.privilege_type === 'admin' && (
@@ -34,15 +34,15 @@ export default async function Home() {
                   description='Go to the management dashboard.'
                 >
                   <div className='flex flex-row items-center justify-center w-full'>
-                    <p>MANAGE</p>
-                    <ShieldCheckIcon className='w-5 h-5 ml-1 text-yellow-300' />
+                    <p className='text-white'>MANAGE</p>
+                    <AdminIcon />
                   </div>
                 </LinkCardPrimary>
               </div>
             )}
             <div className='w-full mb-5 sm:w-auto sm:mr-5'>
               <LogoutLinkCardPrimary description='Logout from your account.'>
-                LOGOUT
+                <p className='text-white'>LOGOUT</p>
               </LogoutLinkCardPrimary>
             </div>
           </>
@@ -53,7 +53,7 @@ export default async function Home() {
                 link='/login'
                 description='Login with your username and password.'
               >
-                LOGIN
+                <p className='text-white'>LOGIN</p>
               </LinkCardPrimary>
             </div>
             <div className='mb-5 sm:mr-5'>
@@ -61,7 +61,7 @@ export default async function Home() {
                 link='/register'
                 description='Register a new employee account.'
               >
-                REGISTER
+                <p className='text-white'>REGISTER</p>
               </LinkCardPrimary>
             </div>
           </>

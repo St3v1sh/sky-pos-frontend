@@ -16,7 +16,7 @@ export default function LoginForm() {
       className='flex items-center justify-center w-full mt-10'
     >
       <div className='flex flex-col items-center rounded-xl p-10 m-5 bg-color-surface-mixed-200 sm:w-[30rem] w-full'>
-        <h1>LOGIN</h1>
+        <h1 className='text-white'>LOGIN</h1>
         <div className='flex flex-col w-full mt-6'>
           <CredentialsFormInput
             formDetails={{
@@ -89,6 +89,7 @@ function FormButton() {
   const { pending } = useFormStatus();
   return (
     <button
+      type='submit'
       className='w-full p-3 my-10 text-xl font-bold text-white transition-all duration-200 rounded-full bg-color-primary-500 disabled:bg-color-primary-500/25 disabled:text-white/25'
       disabled={pending}
     >

@@ -4,7 +4,7 @@ export const metadata = {
   title: 'Management - SKY POS',
 };
 
-export default async function Page() {
+export default async function Management() {
   return (
     <>
       <Logo />

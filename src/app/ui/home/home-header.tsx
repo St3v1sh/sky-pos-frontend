@@ -1,8 +1,8 @@
 import Logo from '@/app/ui/logo';
 import { signOut } from '@/auth';
 import { POSUser } from '@/lib/models/user';
-import { ShieldCheckIcon } from '@heroicons/react/20/solid';
 import { Session } from 'next-auth';
+import AdminIcon from '@/app/ui/credentials/admin-icon';
 
 type HomeHeaderProps = {
   session?: Session | null;
@@ -10,8 +10,8 @@ type HomeHeaderProps = {
 
 export default async function HomeHeader({ session }: HomeHeaderProps) {
   return (
-    <div className='flex flex-row items-end justify-between w-full p-5 pt-8 bg-color-surface-mixed-300'>
-      <Logo />
+    <div className='z-50 sticky top-[-.75rem] flex flex-row items-end justify-between w-full p-5 pt-8 rounded-b-lg bg-color-surface-mixed-300'>
+      <Logo className='text-5xl sm:text-7xl' />
       <div className='hidden sm:block'>
         <div className='flex flex-col'>
           {session?.user && (
@@ -24,7 +24,7 @@ export default async function HomeHeader({ session }: HomeHeaderProps) {
               </span>
               <div className='relative'>
                 {(session?.user as POSUser).privilege_type === 'admin' && (
-                  <ShieldCheckIcon className='w-5 h-5 ml-1 text-yellow-300 peer' />
+                  <AdminIcon className='peer' />
                 )}
                 {/* Tooltip */}
                 <div className='absolute hidden peer-hover:block -translate-x-full translate-y-3 top-full whitespace-nowrap left-[calc(100%+.5rem)]'>
@@ -45,7 +45,10 @@ export default async function HomeHeader({ session }: HomeHeaderProps) {
                 await signOut();
               }}
             >
-              <button className='w-full p-1 font-bold text-center bg-transparent rounded-xl outline outline-1 outline-white'>
+              <button
+                type='submit'
+                className='w-full p-1 font-bold text-center text-white bg-transparent border border-white rounded-xl'
+              >
                 LOGOUT
               </button>
             </form>
