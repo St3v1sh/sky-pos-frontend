@@ -1,11 +1,7 @@
-import { auth } from '@/auth';
-
 export const metadata = {
-  title: 'SKY POS - Journal',
+  title: 'Journal - SKY POS',
 };
 
-export default async function Journal() {
-  const session = await auth();
-
-  return <div>test</div>;
+export default function Journal() {
+  return <div>journal view</div>;
 }

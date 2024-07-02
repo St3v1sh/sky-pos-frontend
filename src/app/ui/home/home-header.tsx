@@ -10,7 +10,7 @@ type HomeHeaderProps = {
 
 export default async function HomeHeader({ session }: HomeHeaderProps) {
   return (
-    <div className='z-50 sticky top-[-.75rem] flex flex-row items-end justify-between w-full p-5 pt-8 rounded-b-lg bg-color-surface-mixed-300'>
+    <div className='z-50 sticky top-[-.75rem] flex flex-row items-end justify-between w-full p-5 pt-8 rounded-b-lg bg-color-surface-mixed-300 whitespace-nowrap overflow-hidden'>
       <Logo className='text-5xl sm:text-7xl' />
       <div className='hidden sm:block'>
         <div className='flex flex-col'>

@@ -11,7 +11,7 @@ export default async function Header({ children }: HeaderProps) {
   const session = await auth();
 
   return (
-    <div className='sticky top-0 z-50 flex flex-row items-end justify-between w-full p-3 rounded-b-lg bg-color-surface-mixed-300'>
+    <div className='sticky top-0 z-50 flex flex-row items-end justify-between w-full p-3 overflow-hidden rounded-b-lg bg-color-surface-mixed-300 whitespace-nowrap'>
       <div className='flex flex-row'>
         {children}
         <Logo className='text-5xl' />
