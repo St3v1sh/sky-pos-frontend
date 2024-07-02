@@ -15,7 +15,7 @@ import {
   BanknotesIcon as BanknotesIconOutline,
   ArchiveBoxIcon as ArchiveBoxIconOutline,
 } from '@heroicons/react/24/outline';
-import { events, offEvent, onEvent } from '@/app/ui/dashboards/event-emitter';
+import { events, offEvent, onEvent } from '@/lib/event-emitter';
 import clsx from 'clsx';
 import { SmallNavbarContext } from '@/context/small-navbar-context';
 import Cookies from 'js-cookie';
@@ -32,21 +32,23 @@ export default function DashboardNavbar() {
 
   useEffect(() => {
     const handleToggleNavbar = () => {
-      const newValue = !isSmallNavbar;
-      setIsSmallNavbar(newValue);
-      Cookies.set(events.toggleNavbar, newValue.toString(), {
-        expires: 365,
-        sameSite: 'Lax',
+      setIsSmallNavbar((prevIsSmallNavbar) => {
+        const newValue = !prevIsSmallNavbar;
+        Cookies.set(events.toggleNavbar, newValue.toString(), {
+          expires: 365,
+          sameSite: 'Lax',
+        });
+        return newValue;
       });
     };
-    onEvent.toggleNavbar(handleToggleNavbar);
 
+    onEvent.toggleNavbar(handleToggleNavbar);
     return () => offEvent.toggleNavbar(handleToggleNavbar);
-  }, [isSmallNavbar]);
+  }, []);
 
   if (!isMounted) {
     return (
-      <div className='sticky top-[4.5rem] flex flex-col h-full py-3 rounded-r-xl w-[16rem]'></div>
+      <div className='sticky top-[4.5rem] flex flex-col h-full py-3 rounded-r-xl min-w-[16rem]'></div>
     );
   }
 

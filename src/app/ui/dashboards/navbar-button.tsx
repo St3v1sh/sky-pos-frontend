@@ -1,6 +1,6 @@
 'use client';
 
-import { emitEvent } from '@/app/ui/dashboards/event-emitter';
+import { emitEvent } from '@/lib/event-emitter';
 import { Bars3Icon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
 

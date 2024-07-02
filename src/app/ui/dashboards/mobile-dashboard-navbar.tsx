@@ -14,26 +14,20 @@ import {
   ArchiveBoxIcon as ArchiveBoxIconOutline,
 } from '@heroicons/react/24/outline';
 import MobileNavLink from './mobile-nav-link';
-import { useEffect, useRef, useState } from 'react';
-import { emitEvent, offEvent, onEvent } from './event-emitter';
+import { useEffect, useState } from 'react';
+import { offEvent, onEvent } from '../../../lib/event-emitter';
 import clsx from 'clsx';
 
 export default function MobileDashboardNavbar() {
   const [isVisible, setIsVisible] = useState(false);
 
-  const handleClose = () => {
-    setIsVisible(false);
-  };
-
   useEffect(() => {
-    const handleToggleMobileNavbar = () => {
-      const newValue = !isVisible;
-      setIsVisible(newValue);
-    };
+    const handleToggleMobileNavbar = () =>
+      setIsVisible((prevIsVisible) => !prevIsVisible);
     onEvent.toggleMobileNavbar(handleToggleMobileNavbar);
 
     return () => offEvent.toggleMobileNavbar(handleToggleMobileNavbar);
-  }, [isVisible]);
+  }, []);
 
   return (
     <div className={clsx('sm:hidden', !isVisible && 'hidden')}>

@@ -2,7 +2,7 @@
 
 import { Bars3Icon } from '@heroicons/react/20/solid';
 import clsx from 'clsx';
-import { emitEvent, offEvent, onEvent } from './event-emitter';
+import { emitEvent } from '@/lib/event-emitter';
 
 interface MobileNavbarButtonProps {
   className?: string;
