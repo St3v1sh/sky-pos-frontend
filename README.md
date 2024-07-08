@@ -12,4 +12,4 @@ Run the development mode using `npm run dev`
 
 ### Backend
 
-Backend is located at [here](https://github.com/sky3947/sky-pos-database-api)
+Backend is located at [here](https://github.com/st3v1sh/sky-pos-database-api)
