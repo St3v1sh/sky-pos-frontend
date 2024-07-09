@@ -45,6 +45,7 @@ export default async function Home() {
                 <p className='text-white'>LOGOUT</p>
               </LogoutLinkCardPrimary>
             </div>
+            <div className='w-[100rem] h-[300rem]'></div>
           </>
         ) : (
           <>
